@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+             http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="mainPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <non-jta-data-source>writeDataSource</non-jta-data-source>
+        <class>com.zzm.wechat.model.Blog</class>
+        <class>com.zzm.wechat.model.DepGroup</class>
+        <class>com.zzm.wechat.model.DepMember</class>
+        <class>com.zzm.wechat.model.BlogView</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.36.10:3306/deblog" />
+            <property name="javax.persistence.jdbc.user" value="famer" />
+            <property name="javax.persistence.jdbc.password" value="famer" />
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="queryPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <non-jta-data-source>readDataSource</non-jta-data-source>
+        <class>com.zzm.wechat.model.Blog</class>
+        <class>com.zzm.wechat.model.DepGroup</class>
+        <class>com.zzm.wechat.model.DepMember</class>
+        <class>com.zzm.wechat.model.BlogView</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.36.10:3306/deblog" />
+            <property name="javax.persistence.jdbc.user" value="famer" />
+            <property name="javax.persistence.jdbc.password" value="famer" />
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+            <property name="hibernate.show_sql" value="true" />
+        </properties>
+    </persistence-unit>
+
+</persistence>
