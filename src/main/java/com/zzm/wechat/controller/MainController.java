@@ -48,12 +48,13 @@ public class MainController {
         boolean compareResult = result.equals(signature.toUpperCase());
         log.debug(String.format("compare result:%b", compareResult));
 
-        log.debug("wechat auth finish");
         if (compareResult) {
+            log.debug("wechat auth success");
             return new ResponseEntity<String>(echostr, HttpStatus.OK);
         }
 
-        return new ResponseEntity<String>("wechat auto failed.", HttpStatus.BAD_REQUEST);
+        log.debug("wechat auth failed");
+        return new ResponseEntity<String>("wechat auth failed.", HttpStatus.BAD_REQUEST);
     }
 
     private String sha1(String s) {

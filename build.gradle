@@ -51,6 +51,8 @@ dependencies {
             "javax.servlet.jsp:jsp-api:2.1"
     )
 
+    providedCompile "xml-apis:xml-apis:1.0.b2"
+
     //spring
     compile("org.springframework:spring-context:" + springVersion)
     compile("org.springframework:spring-context-support:" + springVersion)
@@ -61,33 +63,33 @@ dependencies {
     compile("org.springframework:spring-webmvc:" + springVersion)
 
     //aspects
-//    compile "org.aspectj:aspectjrt:" + aspectjrtVersion
-//    compile "org.aspectj:aspectjweaver:" + aspectjrtVersion
+    compile "org.aspectj:aspectjrt:" + aspectjrtVersion
+    compile "org.aspectj:aspectjweaver:" + aspectjrtVersion
 
     //logging
     compile("log4j:log4j:1.2.17")
     compile("org.slf4j:slf4j-log4j12:" + slf4jVersion)
 
     //json
-//    compile "com.fasterxml.jackson.core:jackson-databind:" + jacksonDatabindVersion
-//    compile "org.codehaus.jackson:jackson-mapper-asl:" + jacksonVersion
-//    compile "org.codehaus.jackson:jackson-core-asl:" + jacksonVersion
+    compile "com.fasterxml.jackson.core:jackson-databind:" + jacksonDatabindVersion
+    compile "org.codehaus.jackson:jackson-mapper-asl:" + jacksonVersion
+    compile "org.codehaus.jackson:jackson-core-asl:" + jacksonVersion
 
     //db access
-//    compile "org.hibernate:hibernate-validator:" + hibernateValidatorVersion
-//    compile "org.springframework:spring-jdbc:" + springVersion
-//    compile "org.springframework:spring-orm:" + springVersion
-//    compile "org.springframework.data:spring-data-jpa:" + springDataJpaVersion
-//    compile "org.hibernate:hibernate-entitymanager:" + hibernateVersion
-//    compile "org.hibernate:hibernate-core:" + hibernateVersion
-//    compile "org.hibernate:hibernate-ehcache:" + hibernateVersion
-//    compile "mysql:mysql-connector-java:" + mysqlVersion
-//    compile "com.mchange:c3p0:0.9.5-pre8"
+    compile "org.hibernate:hibernate-validator:" + hibernateValidatorVersion
+    compile "org.springframework:spring-jdbc:" + springVersion
+    compile "org.springframework:spring-orm:" + springVersion
+    compile "org.springframework.data:spring-data-jpa:" + springDataJpaVersion
+    compile "org.hibernate:hibernate-entitymanager:" + hibernateVersion
+    compile "org.hibernate:hibernate-core:" + hibernateVersion
+    compile "org.hibernate:hibernate-ehcache:" + hibernateVersion
+    compile "mysql:mysql-connector-java:" + mysqlVersion
+    compile "com.mchange:c3p0:0.9.5-pre8"
 
     //other
     compile "com.google.guava:guava:" + guavaVersion
-//    compile "joda-time:joda-time:" + jodaVersion
-//    compile "org.jadira.usertype:usertype.jodatime:2.0.1"
+    compile "joda-time:joda-time:" + jodaVersion
+    compile "org.jadira.usertype:usertype.jodatime:2.0.1"
 
     //testing
     testCompile "junit:junit:" + junitVersion
