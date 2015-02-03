@@ -21,104 +21,104 @@
     <mvc:annotation-driven/>
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
-    <bean id="persistenceUnitManager"
-          class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
-        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
-        <!--  comment dataSourceLooup to use jndi -->
-        <property name="dataSourceLookup">
-            <bean class="org.springframework.jdbc.datasource.lookup.BeanFactoryDataSourceLookup"/>
-        </property>
-    </bean>
+    <!--<bean id="persistenceUnitManager"-->
+          <!--class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">-->
+        <!--<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>-->
+        <!--&lt;!&ndash;  comment dataSourceLooup to use jndi &ndash;&gt;-->
+        <!--<property name="dataSourceLookup">-->
+            <!--<bean class="org.springframework.jdbc.datasource.lookup.BeanFactoryDataSourceLookup"/>-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <!--write persistence config-->
-    <bean id="writeJpaVendor"
-          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="showSql" value="true"/>
-        <property name="generateDdl" value="true"/>
-    </bean>
+    <!--<bean id="writeJpaVendor"-->
+          <!--class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">-->
+        <!--<property name="showSql" value="true"/>-->
+        <!--<property name="generateDdl" value="true"/>-->
+    <!--</bean>-->
 
-    <bean id="writeDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource " destroy-method="close">
-        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://192.168.36.10:3306/deblog"/>
-        <property name="user" value="famer"/>
-        <property name="password" value="famer"/>
-        <property name="acquireIncrement" value="1"/>
-        <property name="initialPoolSize" value="5"/>
-        <property name="maxPoolSize" value="20"/>
-        <property name="minPoolSize" value="5"/>
-        <property name="maxStatements" value="100"/>
-        <property name="testConnectionOnCheckout" value="true"/>
-    </bean>
+    <!--<bean id="writeDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource " destroy-method="close">-->
+        <!--<property name="driverClass" value="com.mysql.jdbc.Driver"/>-->
+        <!--<property name="jdbcUrl" value="jdbc:mysql://192.168.36.10:3306/deblog"/>-->
+        <!--<property name="user" value="famer"/>-->
+        <!--<property name="password" value="famer"/>-->
+        <!--<property name="acquireIncrement" value="1"/>-->
+        <!--<property name="initialPoolSize" value="5"/>-->
+        <!--<property name="maxPoolSize" value="20"/>-->
+        <!--<property name="minPoolSize" value="5"/>-->
+        <!--<property name="maxStatements" value="100"/>-->
+        <!--<property name="testConnectionOnCheckout" value="true"/>-->
+    <!--</bean>-->
 
-    <bean id="writeEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitManager" ref="persistenceUnitManager" />
-        <property name="persistenceUnitName" value="mainPersistenceUnit"/>
-        <property name="jpaVendorAdapter" ref="writeJpaVendor" />
-        <property name="loadTimeWeaver">
-            <bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
-        </property>
-        <property name="jpaDialect">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
-        </property>
-    </bean>
+    <!--<bean id="writeEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
+        <!--<property name="persistenceUnitManager" ref="persistenceUnitManager" />-->
+        <!--<property name="persistenceUnitName" value="mainPersistenceUnit"/>-->
+        <!--<property name="jpaVendorAdapter" ref="writeJpaVendor" />-->
+        <!--<property name="loadTimeWeaver">-->
+            <!--<bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />-->
+        <!--</property>-->
+        <!--<property name="jpaDialect">-->
+            <!--<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="writeTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="writeEntityManagerFactory"/>
-        <qualifier value="writeEm" />
-        <property name="jpaDialect">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
-        </property>
-    </bean>
+    <!--<bean id="writeTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">-->
+        <!--<property name="entityManagerFactory" ref="writeEntityManagerFactory"/>-->
+        <!--<qualifier value="writeEm" />-->
+        <!--<property name="jpaDialect">-->
+            <!--<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <jpa:repositories base-package="com.zzm.wechat.repo.write"
-                      entity-manager-factory-ref="writeEntityManagerFactory"
-                      transaction-manager-ref="writeTransactionManager" />
+    <!--<jpa:repositories base-package="com.zzm.wechat.repo.write"-->
+                      <!--entity-manager-factory-ref="writeEntityManagerFactory"-->
+                      <!--transaction-manager-ref="writeTransactionManager" />-->
 
-    <tx:annotation-driven transaction-manager="writeTransactionManager"/>
+    <!--<tx:annotation-driven transaction-manager="writeTransactionManager"/>-->
 
-    <!--write persistence config-->
-    <bean id="readJpaVendor"
-          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="showSql" value="true"/>
-        <property name="generateDdl" value="true"/>
-    </bean>
+    <!--&lt;!&ndash;write persistence config&ndash;&gt;-->
+    <!--<bean id="readJpaVendor"-->
+          <!--class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">-->
+        <!--<property name="showSql" value="true"/>-->
+        <!--<property name="generateDdl" value="true"/>-->
+    <!--</bean>-->
 
-    <bean id="readDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource " destroy-method="close">
-        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://192.168.36.10:3306/deblog"/>
-        <property name="user" value="famer"/>
-        <property name="password" value="famer"/>
-        <property name="acquireIncrement" value="1"/>
-        <property name="initialPoolSize" value="5"/>
-        <property name="maxPoolSize" value="20"/>
-        <property name="minPoolSize" value="5"/>
-        <property name="maxStatements" value="100"/>
-        <property name="testConnectionOnCheckout" value="true"/>
-    </bean>
+    <!--<bean id="readDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource " destroy-method="close">-->
+        <!--<property name="driverClass" value="com.mysql.jdbc.Driver"/>-->
+        <!--<property name="jdbcUrl" value="jdbc:mysql://192.168.36.10:3306/deblog"/>-->
+        <!--<property name="user" value="famer"/>-->
+        <!--<property name="password" value="famer"/>-->
+        <!--<property name="acquireIncrement" value="1"/>-->
+        <!--<property name="initialPoolSize" value="5"/>-->
+        <!--<property name="maxPoolSize" value="20"/>-->
+        <!--<property name="minPoolSize" value="5"/>-->
+        <!--<property name="maxStatements" value="100"/>-->
+        <!--<property name="testConnectionOnCheckout" value="true"/>-->
+    <!--</bean>-->
 
-    <bean id="readEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitManager" ref="persistenceUnitManager" />
-        <property name="persistenceUnitName" value="queryPersistenceUnit"/>
-        <property name="jpaVendorAdapter" ref="readJpaVendor" />
-        <property name="loadTimeWeaver">
-            <bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
-        </property>
-        <property name="jpaDialect">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
-        </property>
-    </bean>
+    <!--<bean id="readEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
+        <!--<property name="persistenceUnitManager" ref="persistenceUnitManager" />-->
+        <!--<property name="persistenceUnitName" value="queryPersistenceUnit"/>-->
+        <!--<property name="jpaVendorAdapter" ref="readJpaVendor" />-->
+        <!--<property name="loadTimeWeaver">-->
+            <!--<bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />-->
+        <!--</property>-->
+        <!--<property name="jpaDialect">-->
+            <!--<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="readTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="readEntityManagerFactory"/>
-        <qualifier value="readEm" />
-        <property name="jpaDialect">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
-        </property>
-    </bean>
+    <!--<bean id="readTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">-->
+        <!--<property name="entityManagerFactory" ref="readEntityManagerFactory"/>-->
+        <!--<qualifier value="readEm" />-->
+        <!--<property name="jpaDialect">-->
+            <!--<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <jpa:repositories base-package="com.zzm.wechat.repo.read"
-                      entity-manager-factory-ref="readEntityManagerFactory"
-                      transaction-manager-ref="readTransactionManager" />
+    <!--<jpa:repositories base-package="com.zzm.wechat.repo.read"-->
+                      <!--entity-manager-factory-ref="readEntityManagerFactory"-->
+                      <!--transaction-manager-ref="readTransactionManager" />-->
 
-    <tx:annotation-driven transaction-manager="readTransactionManager"/>
+    <!--<tx:annotation-driven transaction-manager="readTransactionManager"/>-->
 </beans>
