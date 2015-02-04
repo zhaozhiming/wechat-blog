@@ -46,12 +46,14 @@ String junitVersion = "4.12"
 String mockitoVersion = "1.10.19"
 
 dependencies {
+    providedCompile (
+            "xml-apis:xml-apis:1.0.b2"
+    )
+
     provided(
             "javax.servlet:servlet-api:2.5",
             "javax.servlet.jsp:jsp-api:2.1"
     )
-
-    providedCompile "xml-apis:xml-apis:1.0.b2"
 
     //spring
     compile("org.springframework:spring-context:" + springVersion)
@@ -63,8 +65,8 @@ dependencies {
     compile("org.springframework:spring-webmvc:" + springVersion)
 
     //aspects
-    compile "org.aspectj:aspectjrt:" + aspectjrtVersion
-    compile "org.aspectj:aspectjweaver:" + aspectjrtVersion
+//    compile "org.aspectj:aspectjrt:" + aspectjrtVersion
+//    compile "org.aspectj:aspectjweaver:" + aspectjrtVersion
 
     //logging
     compile("log4j:log4j:1.2.17")
@@ -76,20 +78,21 @@ dependencies {
     compile "org.codehaus.jackson:jackson-core-asl:" + jacksonVersion
 
     //db access
-    compile "org.hibernate:hibernate-validator:" + hibernateValidatorVersion
-    compile "org.springframework:spring-jdbc:" + springVersion
-    compile "org.springframework:spring-orm:" + springVersion
-    compile "org.springframework.data:spring-data-jpa:" + springDataJpaVersion
-    compile "org.hibernate:hibernate-entitymanager:" + hibernateVersion
-    compile "org.hibernate:hibernate-core:" + hibernateVersion
-    compile "org.hibernate:hibernate-ehcache:" + hibernateVersion
-    compile "mysql:mysql-connector-java:" + mysqlVersion
-    compile "com.mchange:c3p0:0.9.5-pre8"
+//    compile "org.hibernate:hibernate-validator:" + hibernateValidatorVersion
+//    compile "org.springframework:spring-jdbc:" + springVersion
+//    compile "org.springframework:spring-orm:" + springVersion
+//    compile "org.springframework.data:spring-data-jpa:" + springDataJpaVersion
+//    compile "org.hibernate:hibernate-entitymanager:" + hibernateVersion
+//    compile "org.hibernate:hibernate-core:" + hibernateVersion
+//    compile "org.hibernate:hibernate-ehcache:" + hibernateVersion
+//    compile "mysql:mysql-connector-java:" + mysqlVersion
+//    compile "com.mchange:c3p0:0.9.5-pre8"
 
     //other
     compile "com.google.guava:guava:" + guavaVersion
     compile "joda-time:joda-time:" + jodaVersion
     compile "org.jadira.usertype:usertype.jodatime:2.0.1"
+    compile 'commons-io:commons-io:2.4'
 
     //testing
     testCompile "junit:junit:" + junitVersion
