@@ -38,20 +38,7 @@ public class MainController {
         log.info(String.format("signature:%s, timestamp:%s, nonce:%s, echostr:%s",
                 signature, timestamp, nonce, echostr));
 
-        ArrayList<String> strings = Lists.newArrayList(token, timestamp, nonce);
-        log.info(String.format("before sort array:%s", strings));
-        Collections.sort(strings);
-        log.info(String.format("after sort array:%s", strings));
-
-        String groupString = Joiner.on("").join(strings);
-        log.info(String.format("groupString string:%s", groupString));
-
-        String result = sha1(groupString);
-        log.info(String.format("sha1:%s", result));
-        boolean compareResult = result.equals(signature.toUpperCase());
-        log.info(String.format("compare result:%b", compareResult));
-
-        if (compareResult) {
+        if (wechatAuth(signature, timestamp, nonce)) {
             log.info("wechat auth success");
             return new ResponseEntity<String>(echostr, HttpStatus.OK);
         }
@@ -69,8 +56,13 @@ public class MainController {
                                    @RequestBody String body) throws Exception {
         log.info("receive message start");
         log.info(String.format("signature:%s, timestamp:%s, nonce:%s", signature, timestamp, nonce));
-        log.info(String.format("body:%s", body));
 
+        if (!wechatAuth(signature, timestamp, nonce)) {
+            log.info("wechat auth failed");
+            return new ResponseEntity<String>("wechat auth failed.", HttpStatus.BAD_REQUEST);
+        }
+
+        log.info(String.format("body:%s", body));
         TextMessage requestMessage = XmlUtil.toTextMessage(body);
         log.info(String.format("requestMessage:%s", requestMessage));
 
@@ -89,6 +81,22 @@ public class MainController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("Content-Type", "text/html; charset=utf-8");
         return new ResponseEntity<String>(responseMessage, responseHeaders, HttpStatus.OK);
+    }
+
+    private boolean wechatAuth(String signature, String timestamp, String nonce) {
+        ArrayList<String> strings = Lists.newArrayList(token, timestamp, nonce);
+        log.info(String.format("before sort array:%s", strings));
+        Collections.sort(strings);
+        log.info(String.format("after sort array:%s", strings));
+
+        String groupString = Joiner.on("").join(strings);
+        log.info(String.format("groupString string:%s", groupString));
+
+        String result = sha1(groupString);
+        log.info(String.format("sha1:%s", result));
+        boolean compareResult = result.equals(signature.toUpperCase());
+        log.info(String.format("compare result:%b", compareResult));
+        return compareResult;
     }
 
     private String sha1(String s) {
