@@ -67,19 +67,25 @@ public class MainController {
         log.info(String.format("requestMessage:%s", requestMessage));
 
         TextMessage textMessage = null;
-        if (MessageType.event.name().equals(requestMessage.getMsgType())) {
+        String msgType = requestMessage.getMsgType();
+        String toUserName = requestMessage.getToUserName();
+        String fromUserName = requestMessage.getFromUserName();
+        if (MessageType.text.name().equals(msgType)) {
+            textMessage = new TextMessage(toUserName, fromUserName,
+                    MessageType.text.name(), "您好，请输入查询信息", TimeUtil.currentSeconds());
+        } else if (MessageType.event.name().equals(msgType)) {
             if (EventType.subscribe.name().equals(requestMessage.getEvent())) {
                 String message = "感谢您关注我的公众账号[愉快]";
-                textMessage = new TextMessage(requestMessage.getToUserName(), requestMessage.getFromUserName(),
+                textMessage = new TextMessage(toUserName, fromUserName,
                         MessageType.text.name(), message, TimeUtil.currentSeconds());
             }
         }
 
         String responseMessage = XmlUtil.toXml(textMessage);
-        log.info(String.format("response message: %s", responseMessage));
-        log.info("receive message finish");
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+        log.info(String.format("response message: %s", responseMessage));
+        log.info("receive message finish");
         return new ResponseEntity<String>(responseMessage, responseHeaders, HttpStatus.OK);
     }
 
