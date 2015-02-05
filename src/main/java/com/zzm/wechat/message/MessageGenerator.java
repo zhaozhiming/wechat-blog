@@ -23,8 +23,8 @@ public class MessageGenerator {
         if (MessageType.event.name().equals(msgType) && EventType.subscribe.name().equals(requestMessage.getEvent())) {
             return new WechatMessage(toUserName, fromUserName,
                     MessageType.news.name(), TimeUtil.currentSeconds(), 1,
-                    new Articles(Lists.newArrayList(new Article("感谢关注", "感谢您关注我的公众账号",
-                            "http://zhaozhiming.github.io/images/post/2015-2/wechat_part2.jpg",
+                    new Articles(Lists.newArrayList(new Article("感谢您关注我的公众账号", "Hacker and Geeker's Way",
+                            "http://zhaozhiming.github.io/images/post/wechat_public_account_2_code.jpg",
                             "http://zhaozhiming.github.io"))));
         }
         return null;
