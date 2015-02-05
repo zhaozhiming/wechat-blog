@@ -2,10 +2,8 @@ package com.zzm.wechat.controller;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.zzm.wechat.model.EventType;
-import com.zzm.wechat.model.MessageType;
+import com.zzm.wechat.message.MessageGenerator;
 import com.zzm.wechat.model.WechatMessage;
-import com.zzm.wechat.util.TimeUtil;
 import com.zzm.wechat.util.XmlUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -66,30 +64,13 @@ public class MainController {
         WechatMessage requestMessage = XmlUtil.toTextMessage(body);
         log.info(String.format("requestMessage:%s", requestMessage));
 
-        String responseMessage = XmlUtil.toXml(createResponseMessage(requestMessage));
+        MessageGenerator messageGenerator = new MessageGenerator(requestMessage);
+        String responseMessage = XmlUtil.toXml(messageGenerator.createResponseMessage());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("Content-Type", "text/html; charset=utf-8");
         log.info(String.format("response message: %s", responseMessage));
         log.info("receive message finish");
         return new ResponseEntity<String>(responseMessage, responseHeaders, HttpStatus.OK);
-    }
-
-    private WechatMessage createResponseMessage(WechatMessage requestMessage) {
-        WechatMessage wechatMessage = null;
-        String msgType = requestMessage.getMsgType();
-        String toUserName = requestMessage.getToUserName();
-        String fromUserName = requestMessage.getFromUserName();
-        if (MessageType.text.name().equals(msgType)) {
-            wechatMessage = new WechatMessage(toUserName, fromUserName,
-                    MessageType.text.name(), "您好，请输入查询信息", TimeUtil.currentSeconds());
-        } else if (MessageType.event.name().equals(msgType)) {
-            if (EventType.subscribe.name().equals(requestMessage.getEvent())) {
-                String message = "感谢您关注我的公众账号[愉快]";
-                wechatMessage = new WechatMessage(toUserName, fromUserName,
-                        MessageType.text.name(), message, TimeUtil.currentSeconds());
-            }
-        }
-        return wechatMessage;
     }
 
     private boolean wechatAuth(String signature, String timestamp, String nonce) {
