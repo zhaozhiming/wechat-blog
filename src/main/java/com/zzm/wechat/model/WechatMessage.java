@@ -12,6 +12,8 @@ public class WechatMessage {
     private String content;
     private String event;
     private long createTime;
+    private int articleCount;
+    private Articles articles;
 
     public WechatMessage() {
     }
@@ -22,6 +24,13 @@ public class WechatMessage {
         this.msgType = msgType;
         this.content = content;
         this.createTime = createTime;
+    }
+
+    public WechatMessage(String fromUserName, String toUserName, String msgType, long createTime,
+                         int articleCount, Articles articles) {
+        this(fromUserName, toUserName, msgType, null, createTime);
+        this.articleCount = articleCount;
+        this.articles = articles;
     }
 
     public String getToUserName() {
@@ -88,6 +97,24 @@ public class WechatMessage {
         this.event = event;
     }
 
+    public int getArticleCount() {
+        return articleCount;
+    }
+
+    @XmlElement(name = "ArticleCount")
+    public void setArticleCount(int articleCount) {
+        this.articleCount = articleCount;
+    }
+
+    public Articles getArticles() {
+        return articles;
+    }
+
+    @XmlElement(name = "Articles")
+    public void setArticles(Articles articles) {
+        this.articles = articles;
+    }
+
     @Override
     public String toString() {
         return "TextMessage{" +
@@ -98,6 +125,8 @@ public class WechatMessage {
                 ", content='" + content + '\'' +
                 ", event='" + event + '\'' +
                 ", createTime=" + createTime +
+                ", articleCount=" + articleCount +
+                ", articles=" + articles +
                 '}';
     }
 }

@@ -1,6 +1,9 @@
 package com.zzm.wechat.util;
 
-import com.zzm.wechat.builder.TextMessageBuilder;
+import com.google.common.collect.Lists;
+import com.zzm.wechat.builder.ArticleBuilder;
+import com.zzm.wechat.builder.WechatMessageBuilder;
+import com.zzm.wechat.model.Articles;
 import com.zzm.wechat.model.WechatMessage;
 import org.junit.Test;
 
@@ -17,11 +20,30 @@ public class XmlUtilTest {
 
     @Test
     public void should_convert_message_to_xml_correct() throws Exception {
-        WechatMessage wechatMessage = TextMessageBuilder.aTextMessage().withToUserName("zzm").build();
-        wechatMessage.setToUserName("zzm");
+        WechatMessage wechatMessage = WechatMessageBuilder.aWechatMessage().withToUserName("zzm").build();
         String result = XmlUtil.toXml(wechatMessage);
 
         assertThat(result, containsString("<ToUserName>zzm</ToUserName>"));
+    }
+
+    @Test
+    public void should_convert_news_message_to_xml_correct() throws Exception {
+        Articles articles = new Articles(Lists.newArrayList(
+                ArticleBuilder.aArticle().withTitle("title1").build(),
+                ArticleBuilder.aArticle().withTitle("title2").build()
+        ));
+        WechatMessage wechatMessage = WechatMessageBuilder.aWechatMessage()
+                .withArticles(articles).build();
+        String result = XmlUtil.toXml(wechatMessage);
+
+        assertThat(result, containsString("    <Articles>\n" +
+                "        <item>\n" +
+                "            <Title>title1</Title>\n" +
+                "        </item>\n" +
+                "        <item>\n" +
+                "            <Title>title2</Title>\n" +
+                "        </item>\n" +
+                "    </Articles>"));
     }
 
     @Test

@@ -1,8 +1,7 @@
 package com.zzm.wechat.message;
 
-import com.zzm.wechat.model.EventType;
-import com.zzm.wechat.model.MessageType;
-import com.zzm.wechat.model.WechatMessage;
+import com.google.common.collect.Lists;
+import com.zzm.wechat.model.*;
 import com.zzm.wechat.util.TimeUtil;
 
 public class MessageGenerator {
@@ -21,11 +20,12 @@ public class MessageGenerator {
                     MessageType.text.name(), "您好，请输入查询信息", TimeUtil.currentSeconds());
         }
 
-        if (MessageType.event.name().equals(msgType)) {
-            if (EventType.subscribe.name().equals(requestMessage.getEvent())) {
-                return new WechatMessage(toUserName, fromUserName,
-                        MessageType.text.name(), "感谢您关注我的公众账号[愉快]", TimeUtil.currentSeconds());
-            }
+        if (MessageType.event.name().equals(msgType) && EventType.subscribe.name().equals(requestMessage.getEvent())) {
+            return new WechatMessage(toUserName, fromUserName,
+                    MessageType.news.name(), TimeUtil.currentSeconds(), 1,
+                    new Articles(Lists.newArrayList(new Article("感谢关注", "感谢您关注我的公众账号",
+                            "http://zhaozhiming.github.io/images/post/2015-2/wechat_part2.jpg",
+                            "http://zhaozhiming.github.io"))));
         }
         return null;
     }
