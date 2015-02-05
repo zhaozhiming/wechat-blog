@@ -1,7 +1,7 @@
 package com.zzm.wechat.util;
 
 import com.zzm.wechat.builder.TextMessageBuilder;
-import com.zzm.wechat.model.TextMessage;
+import com.zzm.wechat.model.WechatMessage;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -17,9 +17,9 @@ public class XmlUtilTest {
 
     @Test
     public void should_convert_message_to_xml_correct() throws Exception {
-        TextMessage textMessage = TextMessageBuilder.aTextMessage().withToUserName("zzm").build();
-        textMessage.setToUserName("zzm");
-        String result = XmlUtil.toXml(textMessage);
+        WechatMessage wechatMessage = TextMessageBuilder.aTextMessage().withToUserName("zzm").build();
+        wechatMessage.setToUserName("zzm");
+        String result = XmlUtil.toXml(wechatMessage);
 
         assertThat(result, containsString("<ToUserName>zzm</ToUserName>"));
     }
@@ -33,13 +33,13 @@ public class XmlUtilTest {
                 "<MsgType>event</MsgType>\n" +
                 "<Event>subscribe</Event>\n" +
                 "</xml>";
-        TextMessage textMessage = XmlUtil.toTextMessage(xml);
+        WechatMessage wechatMessage = XmlUtil.toTextMessage(xml);
 
-        assertThat(textMessage.getToUserName(), is("zzm"));
-        assertThat(textMessage.getFromUserName(), is("zzm"));
-        assertThat(textMessage.getCreateTime(), is(123456789L));
-        assertThat(textMessage.getMsgType(), is("event"));
-        assertThat(textMessage.getEvent(), is("subscribe"));
+        assertThat(wechatMessage.getToUserName(), is("zzm"));
+        assertThat(wechatMessage.getFromUserName(), is("zzm"));
+        assertThat(wechatMessage.getCreateTime(), is(123456789L));
+        assertThat(wechatMessage.getMsgType(), is("event"));
+        assertThat(wechatMessage.getEvent(), is("subscribe"));
     }
 
 }

@@ -1,6 +1,6 @@
 package com.zzm.wechat.builder;
 
-import com.zzm.wechat.model.TextMessage;
+import com.zzm.wechat.model.WechatMessage;
 
 public class TextMessageBuilder {
     private String toUserName;
@@ -14,9 +14,9 @@ public class TextMessageBuilder {
         return this;
     }
 
-    public TextMessage build() {
-        TextMessage textMessage = new TextMessage();
-        textMessage.setToUserName(toUserName);
-        return textMessage;
+    public WechatMessage build() {
+        WechatMessage wechatMessage = new WechatMessage();
+        wechatMessage.setToUserName(toUserName);
+        return wechatMessage;
     }
 }

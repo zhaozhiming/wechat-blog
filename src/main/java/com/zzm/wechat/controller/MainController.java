@@ -4,7 +4,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.zzm.wechat.model.EventType;
 import com.zzm.wechat.model.MessageType;
-import com.zzm.wechat.model.TextMessage;
+import com.zzm.wechat.model.WechatMessage;
 import com.zzm.wechat.util.TimeUtil;
 import com.zzm.wechat.util.XmlUtil;
 import org.apache.commons.logging.Log;
@@ -27,7 +27,7 @@ public class MainController {
     @Value("${token}")
     private String token;
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
     public
     @ResponseBody
     ResponseEntity<String> auth(@RequestParam("signature") String signature,
@@ -63,30 +63,33 @@ public class MainController {
         }
 
         log.info(String.format("body:%s", body));
-        TextMessage requestMessage = XmlUtil.toTextMessage(body);
+        WechatMessage requestMessage = XmlUtil.toTextMessage(body);
         log.info(String.format("requestMessage:%s", requestMessage));
 
-        TextMessage textMessage = null;
-        String msgType = requestMessage.getMsgType();
-        String toUserName = requestMessage.getToUserName();
-        String fromUserName = requestMessage.getFromUserName();
-        if (MessageType.text.name().equals(msgType)) {
-            textMessage = new TextMessage(toUserName, fromUserName,
-                    MessageType.text.name(), "您好，请输入查询信息", TimeUtil.currentSeconds());
-        } else if (MessageType.event.name().equals(msgType)) {
-            if (EventType.subscribe.name().equals(requestMessage.getEvent())) {
-                String message = "感谢您关注我的公众账号[愉快]";
-                textMessage = new TextMessage(toUserName, fromUserName,
-                        MessageType.text.name(), message, TimeUtil.currentSeconds());
-            }
-        }
-
-        String responseMessage = XmlUtil.toXml(textMessage);
+        String responseMessage = XmlUtil.toXml(createResponseMessage(requestMessage));
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("Content-Type", "text/html; charset=utf-8");
         log.info(String.format("response message: %s", responseMessage));
         log.info("receive message finish");
         return new ResponseEntity<String>(responseMessage, responseHeaders, HttpStatus.OK);
+    }
+
+    private WechatMessage createResponseMessage(WechatMessage requestMessage) {
+        WechatMessage wechatMessage = null;
+        String msgType = requestMessage.getMsgType();
+        String toUserName = requestMessage.getToUserName();
+        String fromUserName = requestMessage.getFromUserName();
+        if (MessageType.text.name().equals(msgType)) {
+            wechatMessage = new WechatMessage(toUserName, fromUserName,
+                    MessageType.text.name(), "您好，请输入查询信息", TimeUtil.currentSeconds());
+        } else if (MessageType.event.name().equals(msgType)) {
+            if (EventType.subscribe.name().equals(requestMessage.getEvent())) {
+                String message = "感谢您关注我的公众账号[愉快]";
+                wechatMessage = new WechatMessage(toUserName, fromUserName,
+                        MessageType.text.name(), message, TimeUtil.currentSeconds());
+            }
+        }
+        return wechatMessage;
     }
 
     private boolean wechatAuth(String signature, String timestamp, String nonce) {

@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "xml")
-public class TextMessage {
+public class WechatMessage {
     private String fromUserName;
     private String toUserName;
     private String msgType;
@@ -13,10 +13,10 @@ public class TextMessage {
     private String event;
     private long createTime;
 
-    public TextMessage() {
+    public WechatMessage() {
     }
 
-    public TextMessage(String fromUserName, String toUserName, String msgType, String content, long createTime) {
+    public WechatMessage(String fromUserName, String toUserName, String msgType, String content, long createTime) {
         this.fromUserName = fromUserName;
         this.toUserName = toUserName;
         this.msgType = msgType;
