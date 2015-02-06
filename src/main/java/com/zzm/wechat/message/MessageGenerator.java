@@ -17,7 +17,7 @@ public class MessageGenerator {
         String fromUserName = requestMessage.getFromUserName();
         if (MessageType.text.name().equals(msgType)) {
             return new WechatMessage(toUserName, fromUserName,
-                    MessageType.text.name(), "您好，请输入查询信息", TimeUtil.currentSeconds());
+                    MessageType.text.name(), "功能完善中，敬请期待", TimeUtil.currentSeconds());
         }
 
         if (MessageType.event.name().equals(msgType) && EventType.subscribe.name().equals(requestMessage.getEvent())) {
