@@ -10,10 +10,6 @@ public class Article {
     private String picUrl;
     private String url;
 
-    public String getTitle() {
-        return title;
-    }
-
     public Article() {
     }
 
@@ -22,6 +18,10 @@ public class Article {
         this.description = description;
         this.picUrl = picUrl;
         this.url = url;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     @XmlElement(name = "Title")

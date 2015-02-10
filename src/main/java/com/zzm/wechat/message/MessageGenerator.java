@@ -16,8 +16,11 @@ public class MessageGenerator {
         String toUserName = requestMessage.getToUserName();
         String fromUserName = requestMessage.getFromUserName();
         if (MessageType.text.name().equals(msgType)) {
+            Music music = new Music("Where is The Love", "Black Eyed Peas Justin Timberlake",
+                    "http://kingzzmspace.qiniudn.com/818512472000128.mp3",
+                    "http://kingzzmspace.qiniudn.com/818512472000128.mp3");
             return new WechatMessage(toUserName, fromUserName,
-                    MessageType.text.name(), "功能完善中，敬请期待", TimeUtil.currentSeconds());
+                    MessageType.music.name(), music, TimeUtil.currentSeconds());
         }
 
         if (MessageType.event.name().equals(msgType) && EventType.subscribe.name().equals(requestMessage.getEvent())) {

@@ -1,5 +1,5 @@
 package com.zzm.wechat.model;
 
 public enum MessageType {
-    text, event, news
+    text, event, news, music
 }

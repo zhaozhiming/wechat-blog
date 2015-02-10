@@ -14,23 +14,33 @@ public class WechatMessage {
     private long createTime;
     private int articleCount;
     private Articles articles;
+    private Music music;
 
     public WechatMessage() {
     }
 
-    public WechatMessage(String fromUserName, String toUserName, String msgType, String content, long createTime) {
+    public WechatMessage(String fromUserName, String toUserName, String msgType, long createTime) {
         this.fromUserName = fromUserName;
         this.toUserName = toUserName;
         this.msgType = msgType;
-        this.content = content;
         this.createTime = createTime;
+    }
+
+    public WechatMessage(String fromUserName, String toUserName, String msgType, String content, long createTime) {
+        this(fromUserName, toUserName, msgType, createTime);
+        this.content = content;
     }
 
     public WechatMessage(String fromUserName, String toUserName, String msgType, long createTime,
                          int articleCount, Articles articles) {
-        this(fromUserName, toUserName, msgType, null, createTime);
+        this(fromUserName, toUserName, msgType, createTime);
         this.articleCount = articleCount;
         this.articles = articles;
+    }
+
+    public WechatMessage(String fromUserName, String toUserName, String msgType, Music music, long createTime) {
+        this(fromUserName, toUserName, msgType, createTime);
+        this.music = music;
     }
 
     public String getToUserName() {
@@ -115,18 +125,13 @@ public class WechatMessage {
         this.articles = articles;
     }
 
-    @Override
-    public String toString() {
-        return "TextMessage{" +
-                "fromUserName='" + fromUserName + '\'' +
-                ", toUserName='" + toUserName + '\'' +
-                ", msgType='" + msgType + '\'' +
-                ", funcFlag=" + funcFlag +
-                ", content='" + content + '\'' +
-                ", event='" + event + '\'' +
-                ", createTime=" + createTime +
-                ", articleCount=" + articleCount +
-                ", articles=" + articles +
-                '}';
+    public Music getMusic() {
+        return music;
     }
+
+    @XmlElement(name = "Music")
+    public void setMusic(Music music) {
+        this.music = music;
+    }
+
 }
