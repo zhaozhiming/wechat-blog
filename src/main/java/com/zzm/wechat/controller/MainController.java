@@ -65,7 +65,7 @@ public class MainController {
         }
 
         log.info(String.format("body:%s", body));
-        WechatMessage requestMessage = XmlUtil.toMessage(body);
+        WechatMessage requestMessage = (WechatMessage) XmlUtil.xmlToObject(body, WechatMessage.class);
         log.info(String.format("requestMessage:%s", requestMessage));
 
         String responseMessage = XmlUtil.toXml(messageGenerator.createResponseMessage(requestMessage));

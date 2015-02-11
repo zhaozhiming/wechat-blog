@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.zzm.wechat.model.*;
 import com.zzm.wechat.model.map.MapResult;
 import com.zzm.wechat.model.weather.Weather;
+import com.zzm.wechat.model.weather.Weathers;
 import com.zzm.wechat.util.HttpHelper;
 import com.zzm.wechat.util.TimeUtil;
 import com.zzm.wechat.util.XmlUtil;
@@ -78,7 +79,8 @@ public class MessageGenerator {
         HttpGet request = new HttpGet(url);
         String weatherResult = httpHelper.baseHttpRequest(request);
         log.info(String.format("weather result:%s", weatherResult));
-        return XmlUtil.toWeather(weatherResult).weather();
+        Weathers weathers = (Weathers) XmlUtil.xmlToObject(weatherResult, Weathers.class);
+        return weathers.weather();
     }
 
     private MapResult findCityByLocation(WechatMessage requestMessage) throws Exception {

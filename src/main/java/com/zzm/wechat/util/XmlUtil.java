@@ -1,7 +1,5 @@
 package com.zzm.wechat.util;
 
-import com.zzm.wechat.model.WechatMessage;
-import com.zzm.wechat.model.weather.Weathers;
 import org.apache.commons.io.IOUtils;
 
 import javax.xml.bind.JAXBContext;
@@ -12,34 +10,26 @@ import java.io.StringWriter;
 
 public class XmlUtil {
 
-    public static String toXml(WechatMessage wechatMessage) throws Exception {
-        if (wechatMessage == null) return "";
+    public static String toXml(Object object) throws Exception {
+        if (object == null) return "";
 
-        JAXBContext context = JAXBContext.newInstance(WechatMessage.class);
+        JAXBContext context = JAXBContext.newInstance(object.getClass());
         Marshaller m = context.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         m.setProperty(Marshaller.JAXB_FRAGMENT, true);
 
         StringWriter sw = new StringWriter();
-        m.marshal(wechatMessage, sw);
+        m.marshal(object, sw);
         return sw.toString();
     }
 
-    public static WechatMessage toMessage(String xml) throws Exception {
-        JAXBContext jaxbContext = JAXBContext.newInstance(WechatMessage.class);
+    public static Object xmlToObject(String xml, Class clasz) throws Exception {
+        JAXBContext jaxbContext = JAXBContext.newInstance(clasz);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         StringReader reader = new StringReader(xml);
-        WechatMessage wechatMessage = (WechatMessage) jaxbUnmarshaller.unmarshal(reader);
+        Object object = jaxbUnmarshaller.unmarshal(reader);
         IOUtils.closeQuietly(reader);
-        return wechatMessage;
+        return object;
     }
 
-    public static Weathers toWeather(String xml) throws Exception {
-        JAXBContext jaxbContext = JAXBContext.newInstance(Weathers.class);
-        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-        StringReader reader = new StringReader(xml);
-        Weathers weathers = (Weathers) jaxbUnmarshaller.unmarshal(reader);
-        IOUtils.closeQuietly(reader);
-        return weathers;
-    }
 }

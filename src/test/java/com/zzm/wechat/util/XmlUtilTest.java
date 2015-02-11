@@ -57,7 +57,7 @@ public class XmlUtilTest {
                 "<MsgType>event</MsgType>\n" +
                 "<Event>subscribe</Event>\n" +
                 "</xml>";
-        WechatMessage wechatMessage = XmlUtil.toMessage(xml);
+        WechatMessage wechatMessage = (WechatMessage) XmlUtil.xmlToObject(xml, WechatMessage.class);
 
         assertThat(wechatMessage.getToUserName(), is("zzm"));
         assertThat(wechatMessage.getFromUserName(), is("zzm"));
@@ -81,7 +81,7 @@ public class XmlUtilTest {
                 "    </Weather>\n" +
                 "</Profiles>";
 
-        Weathers weathers = XmlUtil.toWeather(xml);
+        Weathers weathers = (Weathers) XmlUtil.xmlToObject(xml, Weathers.class);
         assertThat(weathers.getWeathers().size(), is(1));
         Weather weather = weathers.getWeathers().get(0);
         assertThat(weather.getCity(), is("北京"));
