@@ -1,9 +1,8 @@
 package com.zzm.wechat.util;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
@@ -13,16 +12,16 @@ import java.util.Scanner;
 public class HttpHelper {
 
     public String baseHttpRequest(HttpUriRequest request) throws Exception {
-        CloseableHttpClient client = null;
-        CloseableHttpResponse response = null;
+        DefaultHttpClient client = null;
         try {
-            client = HttpClients.createDefault();
-            response = client.execute(request);
+            client = new DefaultHttpClient();
+            HttpResponse response = client.execute(request);
             InputStream content = response.getEntity().getContent();
             return convertStreamToString(content);
         } finally {
-            if (response != null) response.close();
-            if (client != null) client.close();
+            if (client != null) {
+                client.getConnectionManager().shutdown();
+            }
         }
     }
 

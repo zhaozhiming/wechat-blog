@@ -64,7 +64,7 @@ public class MessageGenerator {
                     weather.getCity(), weather.getTemperatureMin(), weather.getTemperatureMax(),
                     weather.getStatusFrom(), weather.getStatusTo(), weather.getAdvise());
             log.info(String.format("content:%s", content));
-            return new WechatMessage(fromUserName, toUserName, MessageType.text.name(),
+            return new WechatMessage(toUserName, fromUserName, MessageType.text.name(),
                     content, TimeUtil.currentSeconds());
         }
         return null;
