@@ -84,4 +84,18 @@ public class Weather {
     public void setAdvise(String advise) {
         this.advise = advise;
     }
+
+    @Override
+    public String toString() {
+        return "Weather{" +
+                "advise='" + advise + '\'' +
+                ", temperatureMax='" + temperatureMax + '\'' +
+                ", temperatureMin='" + temperatureMin + '\'' +
+                ", directionTo='" + directionTo + '\'' +
+                ", directionFrom='" + directionFrom + '\'' +
+                ", statusTo='" + statusTo + '\'' +
+                ", statusFrom='" + statusFrom + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
 }

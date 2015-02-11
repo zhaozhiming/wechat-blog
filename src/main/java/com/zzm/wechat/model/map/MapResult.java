@@ -21,6 +21,14 @@ public class MapResult {
     }
 
     public String city() {
-        return result.city();
+        return result.city().replace("市", "");
+    }
+
+    @Override
+    public String toString() {
+        return "MapResult{" +
+                "status=" + status +
+                ", result=" + result +
+                '}';
     }
 }

@@ -16,4 +16,15 @@ public class Weathers {
     public void setWeathers(List<Weather> weathers) {
         this.weathers = weathers;
     }
+
+    @Override
+    public String toString() {
+        return "Weathers{" +
+                "weathers=" + weathers +
+                '}';
+    }
+
+    public Weather weather() {
+        return weathers.get(0);
+    }
 }

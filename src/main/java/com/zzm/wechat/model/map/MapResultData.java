@@ -74,4 +74,17 @@ public class MapResultData {
     public String city() {
         return addressComponent.getCity();
     }
+
+    @Override
+    public String toString() {
+        return "MapResultData{" +
+                "cityCode=" + cityCode +
+                ", sematicDescription='" + sematicDescription + '\'' +
+                ", poiRegions=" + poiRegions +
+                ", addressComponent=" + addressComponent +
+                ", business='" + business + '\'' +
+                ", formattedAddress='" + formattedAddress + '\'' +
+                ", location=" + location +
+                '}';
+    }
 }

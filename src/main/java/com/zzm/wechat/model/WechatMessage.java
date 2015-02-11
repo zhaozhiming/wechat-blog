@@ -152,7 +152,7 @@ public class WechatMessage {
         return locationY;
     }
 
-    @XmlElement(name = "LocationY")
+    @XmlElement(name = "Location_Y")
     public void setLocationY(String locationY) {
         this.locationY = locationY;
     }
@@ -182,5 +182,26 @@ public class WechatMessage {
     @XmlElement(name = "MsgId")
     public void setMsgId(String msgId) {
         this.msgId = msgId;
+    }
+
+    @Override
+    public String toString() {
+        return "WechatMessage{" +
+                "fromUserName='" + fromUserName + '\'' +
+                ", toUserName='" + toUserName + '\'' +
+                ", msgType='" + msgType + '\'' +
+                ", funcFlag=" + funcFlag +
+                ", content='" + content + '\'' +
+                ", event='" + event + '\'' +
+                ", createTime=" + createTime +
+                ", articleCount=" + articleCount +
+                ", articles=" + articles +
+                ", music=" + music +
+                ", locationX='" + locationX + '\'' +
+                ", locationY='" + locationY + '\'' +
+                ", scale=" + scale +
+                ", label='" + label + '\'' +
+                ", msgId='" + msgId + '\'' +
+                '}';
     }
 }
