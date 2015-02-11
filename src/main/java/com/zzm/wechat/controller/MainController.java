@@ -7,6 +7,7 @@ import com.zzm.wechat.model.WechatMessage;
 import com.zzm.wechat.util.XmlUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,9 @@ public class MainController {
 
     @Value("${token}")
     private String token;
+
+    @Autowired
+    private MessageGenerator messageGenerator;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public
@@ -61,11 +65,10 @@ public class MainController {
         }
 
         log.info(String.format("body:%s", body));
-        WechatMessage requestMessage = XmlUtil.toTextMessage(body);
+        WechatMessage requestMessage = XmlUtil.toMessage(body);
         log.info(String.format("requestMessage:%s", requestMessage));
 
-        MessageGenerator messageGenerator = new MessageGenerator(requestMessage);
-        String responseMessage = XmlUtil.toXml(messageGenerator.createResponseMessage());
+        String responseMessage = XmlUtil.toXml(messageGenerator.createResponseMessage(requestMessage));
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("Content-Type", "text/html; charset=utf-8");
         log.info(String.format("response message: %s", responseMessage));

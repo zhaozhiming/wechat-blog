@@ -44,6 +44,7 @@ String guavaVersion = "18.0"
 String jodaVersion = "2.7"
 String junitVersion = "4.12"
 String mockitoVersion = "1.10.19"
+String httpVersion = "4.4"
 
 dependencies {
     providedCompile (
@@ -76,6 +77,10 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:" + jacksonDatabindVersion
     compile "org.codehaus.jackson:jackson-mapper-asl:" + jacksonVersion
     compile "org.codehaus.jackson:jackson-core-asl:" + jacksonVersion
+
+    //http
+    compile 'org.apache.httpcomponents:httpclient:' + httpVersion
+    compile 'org.apache.httpcomponents:httpcore:' + httpVersion
 
     //db access
 //    compile "org.hibernate:hibernate-validator:" + hibernateValidatorVersion

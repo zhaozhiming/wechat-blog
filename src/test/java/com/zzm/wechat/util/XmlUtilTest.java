@@ -5,6 +5,8 @@ import com.zzm.wechat.builder.ArticleBuilder;
 import com.zzm.wechat.builder.WechatMessageBuilder;
 import com.zzm.wechat.model.Articles;
 import com.zzm.wechat.model.WechatMessage;
+import com.zzm.wechat.model.weather.Weather;
+import com.zzm.wechat.model.weather.Weathers;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -55,13 +57,42 @@ public class XmlUtilTest {
                 "<MsgType>event</MsgType>\n" +
                 "<Event>subscribe</Event>\n" +
                 "</xml>";
-        WechatMessage wechatMessage = XmlUtil.toTextMessage(xml);
+        WechatMessage wechatMessage = XmlUtil.toMessage(xml);
 
         assertThat(wechatMessage.getToUserName(), is("zzm"));
         assertThat(wechatMessage.getFromUserName(), is("zzm"));
         assertThat(wechatMessage.getCreateTime(), is(123456789L));
         assertThat(wechatMessage.getMsgType(), is("event"));
         assertThat(wechatMessage.getEvent(), is("subscribe"));
+    }
+
+    @Test
+    public void should_covert_xml_to_weather_correct() throws Exception {
+        String xml = "<Profiles>\n" +
+                "    <Weather>\n" +
+                "        <city>北京</city>\n" +
+                "        <status1>晴</status1>\n" +
+                "        <status2>晴</status2>\n" +
+                "        <direction1>无持续风向</direction1>\n" +
+                "        <direction2>无持续风向</direction2>\n" +
+                "        <temperature1>8</temperature1>\n" +
+                "        <temperature2>-4</temperature2>\n" +
+                "        <ssd_s>老年、幼儿、体弱者外出需要带上薄围巾、薄手套。</ssd_s>\n" +
+                "    </Weather>\n" +
+                "</Profiles>";
+
+        Weathers weathers = XmlUtil.toWeather(xml);
+        assertThat(weathers.getWeathers().size(), is(1));
+        Weather weather = weathers.getWeathers().get(0);
+        assertThat(weather.getCity(), is("北京"));
+        assertThat(weather.getStatusFrom(), is("晴"));
+        assertThat(weather.getStatusTo(), is("晴"));
+        assertThat(weather.getDirectionFrom(), is("无持续风向"));
+        assertThat(weather.getDirectionTo(), is("无持续风向"));
+        assertThat(weather.getTemperatureMin(), is("-4"));
+        assertThat(weather.getTemperatureMax(), is("8"));
+        assertThat(weather.getAdvise(), is("老年、幼儿、体弱者外出需要带上薄围巾、薄手套。"));
+
     }
 
 }

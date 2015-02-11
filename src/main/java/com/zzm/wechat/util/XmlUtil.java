@@ -1,6 +1,7 @@
 package com.zzm.wechat.util;
 
 import com.zzm.wechat.model.WechatMessage;
+import com.zzm.wechat.model.weather.Weathers;
 import org.apache.commons.io.IOUtils;
 
 import javax.xml.bind.JAXBContext;
@@ -24,12 +25,21 @@ public class XmlUtil {
         return sw.toString();
     }
 
-    public static WechatMessage toTextMessage(String xml) throws Exception {
+    public static WechatMessage toMessage(String xml) throws Exception {
         JAXBContext jaxbContext = JAXBContext.newInstance(WechatMessage.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         StringReader reader = new StringReader(xml);
         WechatMessage wechatMessage = (WechatMessage) jaxbUnmarshaller.unmarshal(reader);
         IOUtils.closeQuietly(reader);
         return wechatMessage;
+    }
+
+    public static Weathers toWeather(String xml) throws Exception {
+        JAXBContext jaxbContext = JAXBContext.newInstance(Weathers.class);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        StringReader reader = new StringReader(xml);
+        Weathers weathers = (Weathers) jaxbUnmarshaller.unmarshal(reader);
+        IOUtils.closeQuietly(reader);
+        return weathers;
     }
 }

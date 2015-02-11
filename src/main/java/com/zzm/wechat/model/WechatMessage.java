@@ -15,6 +15,11 @@ public class WechatMessage {
     private int articleCount;
     private Articles articles;
     private Music music;
+    private String locationX;
+    private String locationY;
+    private int scale;
+    private String label;
+    private String msgId;
 
     public WechatMessage() {
     }
@@ -134,4 +139,48 @@ public class WechatMessage {
         this.music = music;
     }
 
+    public String getLocationX() {
+        return locationX;
+    }
+
+    @XmlElement(name = "Location_X")
+    public void setLocationX(String locationX) {
+        this.locationX = locationX;
+    }
+
+    public String getLocationY() {
+        return locationY;
+    }
+
+    @XmlElement(name = "LocationY")
+    public void setLocationY(String locationY) {
+        this.locationY = locationY;
+    }
+
+    public int getScale() {
+        return scale;
+    }
+
+    @XmlElement(name = "Scale")
+    public void setScale(int scale) {
+        this.scale = scale;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    @XmlElement(name = "Label")
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getMsgId() {
+        return msgId;
+    }
+
+    @XmlElement(name = "MsgId")
+    public void setMsgId(String msgId) {
+        this.msgId = msgId;
+    }
 }
