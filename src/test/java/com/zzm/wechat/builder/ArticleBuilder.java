@@ -1,6 +1,6 @@
 package com.zzm.wechat.builder;
 
-import com.zzm.wechat.model.Article;
+import com.zzm.wechat.model.wechat.Article;
 
 public class ArticleBuilder {
     private String title;

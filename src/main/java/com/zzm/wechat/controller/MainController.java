@@ -3,7 +3,7 @@ package com.zzm.wechat.controller;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.zzm.wechat.message.MessageGenerator;
-import com.zzm.wechat.model.WechatMessage;
+import com.zzm.wechat.model.wechat.WechatMessage;
 import com.zzm.wechat.util.XmlUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

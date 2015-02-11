@@ -8,11 +8,10 @@ public class Weather {
     private String city;
     private String statusFrom;
     private String statusTo;
-    private String directionFrom;
-    private String directionTo;
     private String temperatureMin;
     private String temperatureMax;
     private String advise;
+    private String date;
 
     public String getCity() {
         return city;
@@ -38,24 +37,6 @@ public class Weather {
     @XmlElement(name = "status2")
     public void setStatusTo(String statusTo) {
         this.statusTo = statusTo;
-    }
-
-    public String getDirectionFrom() {
-        return directionFrom;
-    }
-
-    @XmlElement(name = "direction1")
-    public void setDirectionFrom(String directionFrom) {
-        this.directionFrom = directionFrom;
-    }
-
-    public String getDirectionTo() {
-        return directionTo;
-    }
-
-    @XmlElement(name = "direction2")
-    public void setDirectionTo(String directionTo) {
-        this.directionTo = directionTo;
     }
 
     public String getTemperatureMin() {
@@ -85,17 +66,32 @@ public class Weather {
         this.advise = advise;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    @XmlElement(name = "savedate_weather")
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "Weather{" +
-                "advise='" + advise + '\'' +
-                ", temperatureMax='" + temperatureMax + '\'' +
-                ", temperatureMin='" + temperatureMin + '\'' +
-                ", directionTo='" + directionTo + '\'' +
-                ", directionFrom='" + directionFrom + '\'' +
-                ", statusTo='" + statusTo + '\'' +
+                "city='" + city + '\'' +
                 ", statusFrom='" + statusFrom + '\'' +
-                ", city='" + city + '\'' +
+                ", statusTo='" + statusTo + '\'' +
+                ", temperatureMin='" + temperatureMin + '\'' +
+                ", temperatureMax='" + temperatureMax + '\'' +
+                ", advise='" + advise + '\'' +
+                ", date='" + date + '\'' +
                 '}';
+    }
+
+    public String status() {
+        if (statusFrom.equals(statusTo)) {
+            return statusFrom;
+        }
+        return String.format("%s转%s", statusFrom, statusTo);
     }
 }

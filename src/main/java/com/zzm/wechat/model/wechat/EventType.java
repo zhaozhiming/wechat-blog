@@ -1,4 +1,4 @@
-package com.zzm.wechat.model;
+package com.zzm.wechat.model.wechat;
 
 public enum EventType {
     subscribe

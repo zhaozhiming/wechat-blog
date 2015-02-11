@@ -1,4 +1,4 @@
-package com.zzm.wechat.model;
+package com.zzm.wechat.model.wechat;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

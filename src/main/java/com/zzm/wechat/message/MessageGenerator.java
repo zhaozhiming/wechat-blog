@@ -1,10 +1,10 @@
 package com.zzm.wechat.message;
 
 import com.google.common.collect.Lists;
-import com.zzm.wechat.model.*;
 import com.zzm.wechat.model.map.MapResult;
 import com.zzm.wechat.model.weather.Weather;
 import com.zzm.wechat.model.weather.Weathers;
+import com.zzm.wechat.model.wechat.*;
 import com.zzm.wechat.util.HttpHelper;
 import com.zzm.wechat.util.TimeUtil;
 import com.zzm.wechat.util.XmlUtil;
@@ -61,9 +61,9 @@ public class MessageGenerator {
             log.info(String.format("map:%s", mapResult));
             Weather weather = getWeatherByCity(mapResult);
             log.info(String.format("weather:%s", weather));
-            String content = String.format("城市: %s\n温度: %s~%s\n天气: %s转%s\n建议:%s",
-                    weather.getCity(), weather.getTemperatureMin(), weather.getTemperatureMax(),
-                    weather.getStatusFrom(), weather.getStatusTo(), weather.getAdvise());
+            String content = String.format("%s市天气预报:\n时间:%s\n温度: %s~%s°\n天气: %s\n建议:%s",
+                    weather.getCity(), weather.getDate(), weather.getTemperatureMin(), weather.getTemperatureMax(),
+                    weather.status(), weather.getAdvise());
             log.info(String.format("content:%s", content));
             return new WechatMessage(toUserName, fromUserName, MessageType.text.name(),
                     content, TimeUtil.currentSeconds());
@@ -74,7 +74,7 @@ public class MessageGenerator {
     private Weather getWeatherByCity(MapResult mapResult) throws Exception {
         String city = URLEncoder.encode(mapResult.city(), CITY_ENCODE);
         log.info(String.format("city encode:%s", city));
-        String url = String.format("%s?city=%s&password=DJOYnieT8234jlsK&day=0", sinaWeatherApi, city);
+        String url = String.format("%s?city=%s&password=DJOYnieT8234jlsK&day=1", sinaWeatherApi, city);
         log.info(String.format("weather url:%s", url));
         HttpGet request = new HttpGet(url);
         String weatherResult = httpHelper.baseHttpRequest(request);
