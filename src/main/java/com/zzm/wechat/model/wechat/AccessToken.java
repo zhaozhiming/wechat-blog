@@ -2,7 +2,9 @@ package com.zzm.wechat.model.wechat;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class AccessToken {
+import java.io.Serializable;
+
+public class AccessToken implements Serializable {
     private String accessToken;
     private long expiresIn;
     private String error;

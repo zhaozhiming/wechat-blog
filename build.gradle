@@ -56,6 +56,9 @@ dependencies {
             "javax.servlet.jsp:jsp-api:2.1"
     )
 
+    //sae
+    compile files('./lib/sae-local-1.1.0.jar')
+
     //spring
     compile("org.springframework:spring-context:" + springVersion)
     compile("org.springframework:spring-context-support:" + springVersion)

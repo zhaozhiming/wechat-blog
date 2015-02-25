@@ -2,6 +2,8 @@ package com.zzm.wechat.controller;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.sina.sae.kvdb.SaeKV;
+import com.sina.sae.kvdb.SaeKVUtil;
 import com.zzm.wechat.message.MessageGenerator;
 import com.zzm.wechat.model.wechat.AccessToken;
 import com.zzm.wechat.model.wechat.WechatMessage;
@@ -26,6 +28,7 @@ import java.util.Collections;
 @Controller
 public class MainController {
     private static final Log log = LogFactory.getLog(MainController.class);
+    private static final String ACCESS_TOKEN_KEY = "access_token";
 
     @Value("${token}")
     private String token;
@@ -43,7 +46,7 @@ public class MainController {
     private MessageGenerator messageGenerator;
 
     private ObjectMapper mapper = new ObjectMapper();
-    private AccessToken accessToken;
+    private SaeKV saeKV = new SaeKV();
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public
@@ -97,35 +100,33 @@ public class MainController {
     @ResponseBody
     String accessToken() throws Exception {
         log.info("get access token start");
-        refreshAccessToken();
-        String result = mapper.writeValueAsString(this.accessToken);
-        log.info(String.format("access token:%s", result));
+        AccessToken accessToken = refreshAccessToken();
+        String result = mapper.writeValueAsString(accessToken);
+        log.info(String.format("access token result:%s", result));
         log.info("get access token finish");
         return result;
     }
 
-    private void refreshAccessToken() throws Exception {
-        log.info(String.format("access token:%s", accessToken));
+    private AccessToken refreshAccessToken() throws Exception {
+        saeKV.init();
+        AccessToken accessToken = SaeKVUtil.deserializable(saeKV.get(ACCESS_TOKEN_KEY));
+        log.info(String.format("key value db access token:%s", accessToken));
         if (accessToken == null || isAccessTokenExpire(accessToken)) {
             String url = String.format(
                     "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s",
                     wechatAppid, wechatAppsecret);
             HttpGet request = new HttpGet(url);
             String result = httpHelper.baseHttpRequest(request);
+            log.info(String.format("wechat access token result:%s", result));
             accessToken = mapper.readValue(result, AccessToken.class);
             accessToken.setRecordAt(System.currentTimeMillis());
+            saeKV.set(ACCESS_TOKEN_KEY, SaeKVUtil.serializable(accessToken));
         }
+        return accessToken;
     }
 
     private boolean isAccessTokenExpire(AccessToken accessToken) {
-        long recordAt = accessToken.getRecordAt();
-        long expiresIn = accessToken.getExpiresIn();
-        log.info(String.format("current time:%s", System.currentTimeMillis() - 1000));
-        log.info(String.format("record at:%s", accessToken.getRecordAt()));
-        log.info(String.format("expired at:%s", recordAt + expiresIn * 1000));
-        boolean result = (System.currentTimeMillis() - 1000) > (recordAt + expiresIn * 1000);
-        log.info(String.format("expired result:%s", result));
-        return result;
+        return (System.currentTimeMillis() - 1000) > (accessToken.getRecordAt() + accessToken.getExpiresIn() * 1000);
     }
 
     private boolean wechatAuth(String signature, String timestamp, String nonce) {
