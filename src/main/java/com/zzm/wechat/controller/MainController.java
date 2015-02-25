@@ -3,10 +3,14 @@ package com.zzm.wechat.controller;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.zzm.wechat.message.MessageGenerator;
+import com.zzm.wechat.model.wechat.AccessToken;
 import com.zzm.wechat.model.wechat.WechatMessage;
+import com.zzm.wechat.util.HttpHelper;
 import com.zzm.wechat.util.XmlUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.client.methods.HttpGet;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -26,8 +30,20 @@ public class MainController {
     @Value("${token}")
     private String token;
 
+    @Value("${wechat_appid}")
+    private String wechatAppid;
+
+    @Value("${wechat_appsecret}")
+    private String wechatAppsecret;
+
+    @Autowired
+    private HttpHelper httpHelper;
+
     @Autowired
     private MessageGenerator messageGenerator;
+
+    private ObjectMapper mapper = new ObjectMapper();
+    private AccessToken accessToken;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public
@@ -74,6 +90,42 @@ public class MainController {
         log.info(String.format("response message: %s", responseMessage));
         log.info("receive message finish");
         return new ResponseEntity<String>(responseMessage, responseHeaders, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/access_token", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public
+    @ResponseBody
+    String accessToken() throws Exception {
+        log.info("get access token start");
+        refreshAccessToken();
+        String result = mapper.writeValueAsString(this.accessToken);
+        log.info(String.format("access token:%s", result));
+        log.info("get access token finish");
+        return result;
+    }
+
+    private void refreshAccessToken() throws Exception {
+        log.info(String.format("access token:%s", accessToken));
+        if (accessToken == null || isAccessTokenExpire(accessToken)) {
+            String url = String.format(
+                    "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s",
+                    wechatAppid, wechatAppsecret);
+            HttpGet request = new HttpGet(url);
+            String result = httpHelper.baseHttpRequest(request);
+            accessToken = mapper.readValue(result, AccessToken.class);
+            accessToken.setRecordAt(System.currentTimeMillis());
+        }
+    }
+
+    private boolean isAccessTokenExpire(AccessToken accessToken) {
+        long recordAt = accessToken.getRecordAt();
+        long expiresIn = accessToken.getExpiresIn();
+        log.info(String.format("current time:%s", System.currentTimeMillis() - 1000));
+        log.info(String.format("record at:%s", accessToken.getRecordAt()));
+        log.info(String.format("expired at:%s", recordAt + expiresIn * 1000));
+        boolean result = (System.currentTimeMillis() - 1000) > (recordAt + expiresIn * 1000);
+        log.info(String.format("expired result:%s", result));
+        return result;
     }
 
     private boolean wechatAuth(String signature, String timestamp, String nonce) {
